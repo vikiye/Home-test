@@ -77,7 +77,7 @@ export default {
 
     },
   mounted() {
-      console.log('dasfsdfsdfdsfsdfsda',localStorage.getItem("items"))
+     
   if (localStorage.getItem("items")){
     this.storeData = JSON.parse(localStorage.getItem("items"))
   } else {
