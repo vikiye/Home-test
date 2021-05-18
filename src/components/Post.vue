@@ -28,8 +28,16 @@
 
         <details id="lastResult">
             <summary>Show previous scan results</summary>
-           <p id="last"> {{storeData[0]}}
-           </p><button @click="deletebtn" style="margin-left:10px" id="delete">Delete</button> 
+           <p id="last">
+               <ul>
+             <li>Progress: {{storeData.progress}}</li>
+             <li>Vulnerabilities: {{storeData.vulnerabilitiesFound}}</li>
+             <li>Unaffected vulnerabilities: {{storeData.unaffectedVulnerabilitiesFound}}</li>
+             <li>Policy engine action: {{storeData.policyEngineAction}}</li>
+             </ul>
+           </p>
+          
+           <button @click="deletebtn" style="margin-left:10px" id="delete">Delete</button> 
         </details>
         
 
@@ -76,10 +84,13 @@ export default {
         }
 
     },
+//check if there is array stored in localstrage 
   mounted() {
-     
+      
   if (localStorage.getItem("items")){
     this.storeData = JSON.parse(localStorage.getItem("items"))
+    this.storeData = this.storeData[0]
+    console.log(this.storeData)
   } else {
       document.getElementById('delete').style.display = 'none'
   }
@@ -131,7 +142,7 @@ export default {
         formData.append('commitName', 'unknown');
         formData.append('fileData', this.file);
         const headers = {'Content-Type':'application/x-www-form-urlencoded',
-        'Authorization':  'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzUxMiJ9.eyJpYXQiOjE2MjEzNDQ0ODYsImV4cCI6MTYyMTM0ODA4Niwicm9sZXMiOlsiUk9MRV9VU0VSIiwiUk9MRV9DT01QQU5ZX0FETUlOIl0sInVzZXJuYW1lIjoiOTk4Y2IyZGY4MjNjYjhjNzQ3MTA2NjFmYTU2NTVkNzk3ZjE3NDAxMCJ9.E5DKdqiStVRGAtFGFVva2djXehAU5fUM9eSEwvOA757gjD37NAhihZc_NVZ6jjoPsceXnoVZ6ipCaxTdAl4F2G2KqBMKBSmbPiRtyy8ylDtegl9lRRewZSxLdmgC3P7-19rl0JOodlMl5lw-aNpwWUznhttEARDu1r-MeWWPGJsi0pCm7zKsl7AfererWHrhAvyh0Vh6azB8hPaLO7d8M3xFPhf2ks7WM9uyUkRx1gtjvVBTybC4qlADYCEB40X2YYRaNWEb_dBGvM4bAqda5rbkdwkxIsDNjkTUNeZhWCThACclcJgq5gmsjcBHbEB_ND3p1uRLW8sWW5L2gzq20tDBZctgIGfujma28zjKP3dfUM7Pyg-674IenCWTUfKptT42eHtcfW-k430UThtI_eNitSGJLaKK_3TcrdEEuAu5YUZ3Gich2T8NBMPUvDu-i3dxYfhLdCG4-mF2YQHgZTXM4XnVN5F0bjMvh116kkulFyn0JaGC-x8yIoWMm1TqL6LtttfOlVWyyCx5k_WYJ8sAgcL2j3HvmcXAj8nKTTcaQTzHTB8oUjI3zmEHPufi98BMaTotwbrcJHMBGX6njN5vikq-HQNSKgwOrxkWYnlDfIom65L0yZoxWozguxH4PhnRQewm_GBY5eAk3osvctfqJ-_iSQeayJX6lajSipM'
+        'Authorization':  'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzUxMiJ9.eyJpYXQiOjE2MjEzNDkzNDMsImV4cCI6MTYyMTM1Mjk0Mywicm9sZXMiOlsiUk9MRV9VU0VSIiwiUk9MRV9DT01QQU5ZX0FETUlOIl0sInVzZXJuYW1lIjoiOTk4Y2IyZGY4MjNjYjhjNzQ3MTA2NjFmYTU2NTVkNzk3ZjE3NDAxMCJ9.aUyfs3GL3M8f0Bth3vCDR8RTqL52EbhCOugkchMCuvNdaU6S-R6_Xsnzyx5NC652Y9nhwVgfzZKRNymuQDCB9IZysc14wclcqv4tX2bSaE-GYaopWvsMK4hmAZGQ5Z5nL7h0s1t7iClT6D6Ccgax9E7BsM6JiThY-uAREwoca2B_TP1wu6esIC8-9bWK_4mXbHKmGKkujKByJwy8mtkKyRtnxFZCeek5-OBOTbNQq8dLBHfTOajQHzCocCyy2aCIizMRp-YmpoW1HvR5RAQsF7bppcYPX7EoObs6T4GAV9qc_wevP_xAkVZ1WqA64aueBxWeOeCtv1WBpgVMcjrBVy4DYj95MvPzwy2a9t2wpEL56ALU00WoU4lBG0FXTMmyakFUPmvrG_QcY0ZQsWw7El3PjbEEOfO7biUiaw7hIusWnPKNWyh6oXWpc68ZqUXv08WHFpgDYIbo_-fihWKt2qJ_Km5VzV2Bc5Fw5nZzAs-BWWygZNm17UNG4uP5YSkZ-bDtf4cIkOgVdqoB4ae27pu7HM7NYZ0szIcjBysjk0FasBIUQ1WcMsrplTIuQheNO1g1TnJ8rkZDrsck-DAFLQXElcLP7E97rEl9-uyDwEMkJuohoED4bOI88KO1bg44-P3vl-pSgq6N66o4yVj10u33zLSPvQ58B5V2GDWYhxs'
 };
 //send the post requests
         this.axios.post('http://localhost:8081/api/1.0/open/uploads/dependencies/files', formData, { headers })//request 1
@@ -155,7 +166,7 @@ export default {
              
      async getResult(fileid){
             const headers = {'Content-Type':'application/x-www-form-urlencoded',
-        'Authorization':  'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzUxMiJ9.eyJpYXQiOjE2MjEzNDQ0ODYsImV4cCI6MTYyMTM0ODA4Niwicm9sZXMiOlsiUk9MRV9VU0VSIiwiUk9MRV9DT01QQU5ZX0FETUlOIl0sInVzZXJuYW1lIjoiOTk4Y2IyZGY4MjNjYjhjNzQ3MTA2NjFmYTU2NTVkNzk3ZjE3NDAxMCJ9.E5DKdqiStVRGAtFGFVva2djXehAU5fUM9eSEwvOA757gjD37NAhihZc_NVZ6jjoPsceXnoVZ6ipCaxTdAl4F2G2KqBMKBSmbPiRtyy8ylDtegl9lRRewZSxLdmgC3P7-19rl0JOodlMl5lw-aNpwWUznhttEARDu1r-MeWWPGJsi0pCm7zKsl7AfererWHrhAvyh0Vh6azB8hPaLO7d8M3xFPhf2ks7WM9uyUkRx1gtjvVBTybC4qlADYCEB40X2YYRaNWEb_dBGvM4bAqda5rbkdwkxIsDNjkTUNeZhWCThACclcJgq5gmsjcBHbEB_ND3p1uRLW8sWW5L2gzq20tDBZctgIGfujma28zjKP3dfUM7Pyg-674IenCWTUfKptT42eHtcfW-k430UThtI_eNitSGJLaKK_3TcrdEEuAu5YUZ3Gich2T8NBMPUvDu-i3dxYfhLdCG4-mF2YQHgZTXM4XnVN5F0bjMvh116kkulFyn0JaGC-x8yIoWMm1TqL6LtttfOlVWyyCx5k_WYJ8sAgcL2j3HvmcXAj8nKTTcaQTzHTB8oUjI3zmEHPufi98BMaTotwbrcJHMBGX6njN5vikq-HQNSKgwOrxkWYnlDfIom65L0yZoxWozguxH4PhnRQewm_GBY5eAk3osvctfqJ-_iSQeayJX6lajSipM'
+        'Authorization':  'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzUxMiJ9.eyJpYXQiOjE2MjEzNDkzNDMsImV4cCI6MTYyMTM1Mjk0Mywicm9sZXMiOlsiUk9MRV9VU0VSIiwiUk9MRV9DT01QQU5ZX0FETUlOIl0sInVzZXJuYW1lIjoiOTk4Y2IyZGY4MjNjYjhjNzQ3MTA2NjFmYTU2NTVkNzk3ZjE3NDAxMCJ9.aUyfs3GL3M8f0Bth3vCDR8RTqL52EbhCOugkchMCuvNdaU6S-R6_Xsnzyx5NC652Y9nhwVgfzZKRNymuQDCB9IZysc14wclcqv4tX2bSaE-GYaopWvsMK4hmAZGQ5Z5nL7h0s1t7iClT6D6Ccgax9E7BsM6JiThY-uAREwoca2B_TP1wu6esIC8-9bWK_4mXbHKmGKkujKByJwy8mtkKyRtnxFZCeek5-OBOTbNQq8dLBHfTOajQHzCocCyy2aCIizMRp-YmpoW1HvR5RAQsF7bppcYPX7EoObs6T4GAV9qc_wevP_xAkVZ1WqA64aueBxWeOeCtv1WBpgVMcjrBVy4DYj95MvPzwy2a9t2wpEL56ALU00WoU4lBG0FXTMmyakFUPmvrG_QcY0ZQsWw7El3PjbEEOfO7biUiaw7hIusWnPKNWyh6oXWpc68ZqUXv08WHFpgDYIbo_-fihWKt2qJ_Km5VzV2Bc5Fw5nZzAs-BWWygZNm17UNG4uP5YSkZ-bDtf4cIkOgVdqoB4ae27pu7HM7NYZ0szIcjBysjk0FasBIUQ1WcMsrplTIuQheNO1g1TnJ8rkZDrsck-DAFLQXElcLP7E97rEl9-uyDwEMkJuohoED4bOI88KO1bg44-P3vl-pSgq6N66o4yVj10u33zLSPvQ58B5V2GDWYhxs'
 };
             const formData = new FormData;
             
@@ -183,9 +194,10 @@ export default {
             document.getElementById('processpage').style.display='none'
         }
          },
-         //
+         
        
 }
 
 </script>
+
 
