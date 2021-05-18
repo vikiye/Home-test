@@ -137,7 +137,7 @@ button{
 ul{
   padding: 40px;
   list-style-type: none;
-  margin-top:200px;
+  margin-top:100px;
 }
 li{
   margin-top: 10px;
@@ -145,11 +145,12 @@ li{
   
 }
 #lastResult{
-  margin-top:100px;
+  margin-top:70px;
 }
 details > p,details > button {
-  margin-top: 20px;
-  margin-bottom: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 </style>
+
